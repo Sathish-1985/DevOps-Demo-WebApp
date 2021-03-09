@@ -101,7 +101,8 @@ pipeline {
                   blazeMeterTest credentialsId: 'Blazemeter', testId: '9018223.taurus', workspaceId: '757349'
         }
     }
-     }      
+     }  
+ }
         stage('Push prod image to DockerHub ') {
             steps {
                 sshPublisher(publishers: [sshPublisherDesc(configName: 'Test-env', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'ansible-playbook -i /etc/ansible/hosts /home/ansadmin/Devops_case_study/prod/create-simple-docker-project.yml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '//home//ansadmin//Devops_case_study//prod', remoteDirectorySDF: false, removePrefix: 'target', sourceFiles: 'target/*.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true)])
