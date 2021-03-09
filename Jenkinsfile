@@ -80,12 +80,12 @@ pipeline {
             }
             post {
                 always {
-                    jiraSendDeploymentInfo environmentId: 'http://54.236.17.79:8080/', environmentName: 'http://54.236.17.79:8080/', environmentType: 'testing', issueKeys: ['BUG-2'], serviceIds: [''], site: 'sathishdevops.atlassian.net', state: 'successful'
+                    jiraSendDeploymentInfo environmentId: 'http://18.207.142.138:8080/', environmentName: 'http://18.207.142.138:8080/', environmentType: 'testing', issueKeys: ['BUG-2'], serviceIds: [''], site: 'sathishdevops.atlassian.net', state: 'successful'
                 }
             }
         }
- stage ('UI & Performance test') {
-     parallel {
+ //stage ('UI & Performance test') {
+     //parallel {
         stage("UI Test"){
     		steps{
     		   sh "mvn -B -f /var/lib/jenkins/workspace/Test-Project/functionaltest/pom.xml install"
@@ -96,13 +96,13 @@ pipeline {
                 }
             }
     	}
-        stage('Performance test') {
-                steps {
-                  blazeMeterTest credentialsId: 'Blazemeter', testId: '9018223.taurus', workspaceId: '757349'
-        }
-    }
-     }  
- }
+       //stage('Performance test') {
+               // steps {
+                  //blazeMeterTest credentialsId: 'Blazemeter', testId: '9018223.taurus', workspaceId: '757349'
+        //}
+    //}
+     //}  
+ //}
         stage('Push prod image to DockerHub ') {
             steps {
                 sshPublisher(publishers: [sshPublisherDesc(configName: 'Test-env', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'ansible-playbook -i /etc/ansible/hosts /home/ansadmin/Devops_case_study/prod/create-simple-docker-project.yml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '//home//ansadmin//Devops_case_study//prod', remoteDirectorySDF: false, removePrefix: 'target', sourceFiles: 'target/*.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true)])
@@ -118,7 +118,7 @@ pipeline {
             }
             post {
                always {
-                   jiraSendDeploymentInfo environmentId: 'http://54.165.166.19:8080/', environmentName: 'http://54.165.166.19:8080/', environmentType: 'production', issueKeys: ['BUG-2'], serviceIds: [''], site: 'sathishdevops.atlassian.net', state: 'successful'
+                   jiraSendDeploymentInfo environmentId: 'http://54.164.31.174:8080/', environmentName: 'http://54.164.31.174:8080/', environmentType: 'production', issueKeys: ['BUG-2'], serviceIds: [''], site: 'sathishdevops.atlassian.net', state: 'successful'
                }
             }
         }
